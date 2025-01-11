@@ -13,6 +13,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
     depends_on:
       - db
+      - redis
   
   db:
     image: postgres:13
@@ -23,8 +24,16 @@ services:
       - POSTGRES_USER=django_user
       - POSTGRES_PASSWORD=django_password
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
-  postgres_data: 
+  postgres_data:
+  redis_data: 
 
 api:
   environment:
