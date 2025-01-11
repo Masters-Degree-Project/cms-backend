@@ -29,7 +29,7 @@ services:
     depends_on:
       - db
       - redis
-  
+
   db:
     image: postgres:13
     volumes:
@@ -45,6 +45,25 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+
+  worker:
+    build: .
+    command: python manage.py run_worker
+    volumes:
+      - .:/app
+    environment:
+      - DEBUG=${DEBUG}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - db
+      - redis
+      - web
 
 volumes:
   postgres_data:
