@@ -17,3 +17,6 @@ Django based backend application.
 
 #### Run Migrations
 > python manage.py migrate api 
+
+### Run Languages 
+> python manage.py loaddata languages --app api
