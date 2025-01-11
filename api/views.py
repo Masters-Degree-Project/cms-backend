@@ -70,3 +70,15 @@ class ContentDetailView(APIView):
             "keywords": content.keywords,
             "languages": languages,
         }, status=200)
+
+class LanguageView(APIView):
+    def get(self, request):
+        languages = Language.objects.all().prefetch_related('content_language')
+        response = []
+        for lang in languages:
+            response.append({
+                "id": lang.id,
+                "name": lang.name,
+            })
+
+        return Response(response, status=200)
