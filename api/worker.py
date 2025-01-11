@@ -1,5 +1,5 @@
 import time
-from .tasks import process_prompt
+from .tasks import process_prompt_history
 from .queue import redis_client
 
 def start_worker():
@@ -9,7 +9,7 @@ def start_worker():
             result = redis_client.brpop('prompt_queue', timeout=1)
             if result:
                 prompt_history_id = result[1]
-                process_prompt(int(prompt_history_id))
+                process_prompt_history(int(prompt_history_id))
         except Exception as e:
             print(f"Error processing task: {e}")
         

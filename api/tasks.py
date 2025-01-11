@@ -1,7 +1,7 @@
 from .models import ContentLanguage, PromptHistory
 from api.enums import PromptHistoryStatus
 
-def process_prompt(prompt_history_id):
+def process_prompt_history(prompt_history_id):
     try:
         promptHistory = PromptHistory.objects.get(id=prompt_history_id)
         promptHistory.status = PromptHistoryStatus.PROCESSING
