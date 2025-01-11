@@ -11,7 +11,7 @@ class ContentView(APIView):
 
         response = []
         for c in content:
-            languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code, "status": cl.status } for cl in c.content_language.all()]
+            languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in c.content_language.all()]
             response.append({
                 "id": c.id,
                 "title": c.title,
@@ -72,7 +72,7 @@ class ContentDetailView(APIView):
         except Content.DoesNotExist:
             return Response({"message": "Content not found"}, status=404)
 
-        languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code, "status": cl.status } for cl in content.content_language.all()]
+        languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in content.content_language.all()]
 
         return Response({
             "id": content.id,
