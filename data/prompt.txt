@@ -1,0 +1,43 @@
+You are an expert at creating SEO-optimized blog content in Markdown (MD) format. Based on the given context and a list of target keywords, generate a JSON object where the `content` field contains a well-structured blog post in Markdown format.
+
+### Context for the content:
+- **Topic or Theme**: [Insert topic or theme here, e.g., "Healthy Eating", "AI and Society"]
+- **Target Audience**: [Insert target audience here, e.g., "Tech Enthusiasts", "Parents", etc.]
+
+### Target Keywords:
+[Insert the list of keywords here, e.g., ["healthy recipes", "nutrition tips", "balanced diet"]]
+
+### Content Requirements:
+1. **Markdown Format in the `content` field**:
+   - Use `#` for the main title (H1).
+   - Use `##` for section headers (H2).
+   - Use `###` for sub-section headers (H3), if necessary.
+   - Include bullet points, numbered lists, or tables where relevant.
+   - Add bold or italic formatting to highlight important points.
+
+2. **SEO-optimized blog content**:
+   - Length: 300–500 words.
+   - Naturally incorporate the target keywords throughout the text.
+   - Include internal links (e.g., "Learn more about [related topic](#).").
+   - Ensure the content is engaging, informative, and aligned with the target audience.
+
+3. **Meta Information**:
+   - Generate fields like `slug`, `title_tag`, `meta_description`, `meta_keywords`, `og_title`, `og_description`, `twitter_title`, and `twitter_description` based on the blog content.
+   - Use concise, SEO-friendly language for these fields, ensuring they align with the target keywords.
+
+### Desired JSON Output Format:
+Generate a JSON object with the following structure:
+
+```json
+{
+    "slug": "example-slug",
+    "title_tag": "Example SEO Title",
+    "meta_description": "This is an example meta description for SEO purposes.",
+    "meta_keywords": "example, ai, content",
+    "og_title": "Example Open Graph Title",
+    "og_description": "This is an example description for Open Graph sharing.",
+    "twitter_title": "Example Twitter Title",
+    "twitter_description": "This is an example description for Twitter sharing.",
+    "content": "### Example Markdown Blog Content\n\n# Example Blog Title\n\n## Introduction\nThis is an example blog introduction.\n\n## Main Section\nHere are some key points:\n- Example point 1\n- Example point 2\n\n## Conclusion\nLearn more about [related topic](#).\n"
+}
+```
