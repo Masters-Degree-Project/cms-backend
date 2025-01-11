@@ -43,6 +43,7 @@ class ContentView(APIView):
             prompt = PromptHistory.objects.create(
                 content=content,
                 language=language,
+                contentLanguage=contentLang,
                 prompt=content.description,
                 status=PromptHistoryStatus.WAITING,
             )

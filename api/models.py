@@ -32,10 +32,11 @@ class ContentLanguage(models.Model):
 
 # Prompt History
 class PromptHistory(models.Model):
-    content = models.ForeignKey('ContentVersion', related_name="prompt_history", on_delete=models.CASCADE)
-    language = models.ForeignKey('Language', on_delete=models.CASCADE)  # ISO code
-    contentLanguage = models.ForeignKey('ContentLanguage', on_delete=models.CASCADE)  # ISO code
     prompt = models.TextField()  # Prompt entered by the user
+    content = models.ForeignKey('Content', on_delete=models.CASCADE)
+    contentVersion = models.ForeignKey('ContentVersion', related_name="prompt_history", on_delete=models.CASCADE, null=True, blank=True)
+    contentLanguage = models.ForeignKey('ContentLanguage', on_delete=models.CASCADE)  # ISO code
+    language = models.ForeignKey('Language', on_delete=models.CASCADE)  # ISO code
     status = models.SmallIntegerField(
         choices=PromptHistoryStatus.choices,
         default=PromptHistoryStatus.WAITING

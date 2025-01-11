@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
   web:
@@ -25,3 +25,7 @@ services:
 
 volumes:
   postgres_data: 
+
+api:
+  environment:
+    - OPENAI_API_KEY=${OPENAI_API_KEY} 
