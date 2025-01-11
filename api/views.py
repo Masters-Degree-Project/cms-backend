@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Content, ContentLanguage, Language
+
+from .enums import PromptHistoryStatus
+from .models import Content, ContentLanguage, Language, PromptHistory
 from .queue import add_to_queue
 
 class ContentView(APIView):
@@ -32,18 +34,26 @@ class ContentView(APIView):
         languages_response = []
         
         for language_id in unique_languages:
-            lang = ContentLanguage.objects.create(
+            language = Language.objects.get(id=language_id)
+            contentLang = ContentLanguage.objects.create(
                 content=content,
-                language=Language.objects.get(id=language_id),
+                language=language,
             )
-            
+
+            prompt = PromptHistory.objects.create(
+                content=content,
+                language=language,
+                prompt=content.description,
+                status=PromptHistoryStatus.WAITING,
+            )
+
             # Add to queue
-            add_to_queue('content_language_queue', lang.id)
+            add_to_queue('prompt_queue', prompt.id)
 
             languages_response.append({
-                "language": lang.language.name,
-                "iso_code": lang.language.iso_code,
-                "status": lang.status,
+                "id": contentLang.id,
+                "language": contentLang.language.name,
+                "iso_code": contentLang.language.iso_code,
             })
 
         return Response({

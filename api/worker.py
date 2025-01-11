@@ -1,16 +1,15 @@
 import time
-from .tasks import process_content_language
+from .tasks import process_prompt
 from .queue import redis_client
 
 def start_worker():
     print("Worker started...")
     while True:
         try:
-            # Queue'dan iş al
-            result = redis_client.brpop('content_language_queue', timeout=1)
+            result = redis_client.brpop('prompt_queue', timeout=1)
             if result:
-                content_language_id = result[1]
-                process_content_language(int(content_language_id))
+                prompt_history_id = result[1]
+                process_prompt(int(prompt_history_id))
         except Exception as e:
             print(f"Error processing task: {e}")
         

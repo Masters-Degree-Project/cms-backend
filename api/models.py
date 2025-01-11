@@ -1,7 +1,5 @@
 from django.db import models
-from .enums import ContentLanguageStatus
-
-# /contents/<slug>
+from .enums import PromptHistoryStatus
 
 # Create your models here.
 class Content(models.Model):
@@ -19,10 +17,6 @@ class Content(models.Model):
         return self.title
 
 class ContentLanguage(models.Model):
-    status = models.SmallIntegerField(
-        choices=ContentLanguageStatus.choices,
-        default=ContentLanguageStatus.WAITING
-    )
     content = models.ForeignKey('Content', related_name="content_language", on_delete=models.CASCADE, default=None, null=True)
     language = models.ForeignKey('Language', related_name="content_language", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -35,35 +29,17 @@ class ContentLanguage(models.Model):
 
     def __str__(self):
         return f"{self.content.title} - {self.language.iso_code}"
-    
-    def get_status(self):
-        return ContentLanguageStatus(self.status).label
-    
-    def is_waiting(self):
-        return self.status == ContentLanguageStatus.WAITING
-    
-    def is_completed(self):
-        return self.status == ContentLanguageStatus.COMPLETED
-    
-    def is_failed(self):
-        return self.status == ContentLanguageStatus.FAILED
-    
-    def set_waiting(self):
-        self.status = ContentLanguageStatus.WAITING
-        self.save()
-    
-    def set_completed(self):
-        self.status = ContentLanguageStatus.COMPLETED
-        self.save()
 
-    def set_failed(self):
-        self.status = ContentLanguageStatus.FAILED
-        self.save()
-
+# Prompt History
 class PromptHistory(models.Model):
     content = models.ForeignKey('ContentVersion', related_name="prompt_history", on_delete=models.CASCADE)
     language = models.ForeignKey('Language', on_delete=models.CASCADE)  # ISO code
+    contentLanguage = models.ForeignKey('ContentLanguage', on_delete=models.CASCADE)  # ISO code
     prompt = models.TextField()  # Prompt entered by the user
+    status = models.SmallIntegerField(
+        choices=PromptHistoryStatus.choices,
+        default=PromptHistoryStatus.WAITING
+    )
     created_at = models.DateTimeField(auto_now_add=True)  # Request date
 
     class Meta:
@@ -71,6 +47,30 @@ class PromptHistory(models.Model):
 
     def __str__(self):
         return f"Prompt for {self.content.title} ({self.language.iso_code}) at {self.created_at}"
+
+    def get_status(self):
+        return PromptHistoryStatus(self.status).label
+
+    def is_waiting(self):
+        return self.status == PromptHistoryStatus.WAITING
+
+    def is_completed(self):
+        return self.status == PromptHistoryStatus.COMPLETED
+
+    def is_failed(self):
+        return self.status == PromptHistoryStatus.FAILED
+
+    def set_waiting(self):
+        self.status = PromptHistoryStatus.WAITING
+        self.save()
+
+    def set_completed(self):
+        self.status = PromptHistoryStatus.COMPLETED
+        self.save()
+
+    def set_failed(self):
+        self.status = PromptHistoryStatus.FAILED
+        self.save()
 
 class ContentVersion(models.Model):
     # SEO Stuff

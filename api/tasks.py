@@ -1,11 +1,16 @@
-from .models import ContentLanguage
-from api.enums import ContentLanguageStatus
+from .models import ContentLanguage, PromptHistory
+from api.enums import PromptHistoryStatus
 
-def process_content_language(content_language_id):
+def process_prompt(prompt_history_id):
     try:
-        content_language = ContentLanguage.objects.get(id=content_language_id)
-        content_language.status = ContentLanguageStatus.PROCESSING
-        content_language.save()
-        return f"Content language {content_language_id} processed successfully"
+        promptHistory = PromptHistory.objects.get(id=prompt_history_id)
+        promptHistory.status = PromptHistoryStatus.PROCESSING
+        promptHistory.save()
+
+        ## TODO: call openai here!!
+
+        ## TODO: create new content language
+
+        return f"Prompt {prompt_history_id} processed successfully"
     except ContentLanguage.DoesNotExist:
-        return f"Content language {content_language_id} not found" 
+        return f"Prompt {prompt_history_id} not found"
