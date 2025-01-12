@@ -141,6 +141,9 @@ class ContentLanguageDetailView(APIView):
         except ContentVersion.DoesNotExist:
             return Response({"message": "Content Version not found"}, status=404)
 
+        if content_version is None:
+            return Response({"message": "Content Version not found"}, status=404)
+
         return Response({
             "slug": content_version.slug,
             "title_tag": content_version.title_tag,
