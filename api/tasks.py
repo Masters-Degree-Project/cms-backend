@@ -18,11 +18,14 @@ def process_prompt_history(prompt_history_id):
 
         # Send request to OpenAI
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": prompt_template},
                 {"role": "user", "content": f"{{ 'language': '{prompt_history.language.name}', 'topic': '{prompt_history.content.title}', 'content': '{prompt_history.prompt}', 'keywords': '{prompt_history.content.keywords}' }}"},
-            ]
+            ],
+            max_tokens=5_000,
+            temperature=0,
+            response_format={"type": "json_object"},
         )
 
         # Get OpenAI response
