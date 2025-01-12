@@ -154,6 +154,7 @@ class ContentLanguageDetailView(APIView):
             "twitter_title": content_version.twitter_title,
             "twitter_description": content_version.twitter_description,
             "content": content_version.generated_text,
+            "version": content_version.version,
         })
 
 class LanguageView(APIView):
