@@ -111,8 +111,18 @@ class ContentVersionView(APIView):
         except Content.DoesNotExist:
             return Response({"message": "Content not found"}, status=404)
 
-        content_versions = ContentVersion.objects.get(content_id=content_id)
-        return Response(content_versions)
+        try:
+            content_versions = ContentVersion.objects.get(content_id=content_id)
+        except ContentVersion.DoesNotExist:
+            return Response({"message": "Content not found"}, status=404)
+
+        response = []
+        for v in content_versions:
+            response.append({
+                "id": v.id,
+            })
+
+        return Response(response)
 
 class ContentLanguageDetailView(APIView):
     def get(self, request, content_id, content_language_id):
