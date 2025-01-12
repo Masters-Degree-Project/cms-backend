@@ -53,5 +53,5 @@ Return a JSON object with the following structure:
     "og_description": "[Open Graph description in the specified language]",
     "twitter_title": "[Twitter title in the specified language]",
     "twitter_description": "[Twitter description in the specified language]",
-    "content": "### Example Markdown Blog Content\n\n# [Translated Blog Title in the specified language]\n\n## [Translated Introduction Section in the specified language]\n\n[Translated main content based on the topic and keywords in the specified language.]\n\n- [Translated bullet point 1 in the specified language]\n- [Translated bullet point 2 in the specified language]\n\n## [Translated Conclusion in the specified language]\n\nLearn more about [related topic](#)."
+    "content": "### [Example Markdown Blog Content]\n\n# [Translated Blog Title in the specified language]\n\n## [Translated Introduction Section in the specified language]\n\n[Translated main content based on the topic and keywords in the specified language.]\n\n- [Translated bullet point 1 in the specified language]\n- [Translated bullet point 2 in the specified language]\n\n## [Translated Conclusion in the specified language]\n\nLearn more about [related topic](#)."
 }
