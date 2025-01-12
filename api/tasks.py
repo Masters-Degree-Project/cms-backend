@@ -31,6 +31,11 @@ def process_prompt_history(prompt_history_id):
         # Get OpenAI response
         ai_response = response.choices[0].message.content
 
+        print("TASK -----")
+        print({"role": "user", "content": f"{{ 'language': '{prompt_history.language.name}', 'topic': '{prompt_history.content.title}', 'content': '{prompt_history.prompt}', 'keywords': '{prompt_history.content.keywords}' }}"})
+        print(ai_response)
+        print("<<<< -----")
+
         # Validate JSON format and required keys
         try:
             import json
@@ -46,10 +51,6 @@ def process_prompt_history(prompt_history_id):
             missing_keys = [key for key in required_keys if key not in response_data]
             if missing_keys:
                 raise ValueError(f"Missing required keys in response: {', '.join(missing_keys)}")
-
-            print("Task Worker!!!")
-            print(response_data)
-            print("<<<<<")
 
             # Get latest version number for this content and language
             latest_version = ContentVersion.objects.filter(
