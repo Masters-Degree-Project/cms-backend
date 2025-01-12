@@ -11,7 +11,7 @@ class ContentView(APIView):
 
         response = []
         for c in content:
-            languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in c.get_languages()]
+            languages = [{ "id": cl.id, "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in c.get_languages()]
             response.append({
                 "id": c.id,
                 "title": c.title,
