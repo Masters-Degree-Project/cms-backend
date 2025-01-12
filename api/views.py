@@ -21,6 +21,8 @@ class ContentView(APIView):
                 }
                 if prompt_version:
                     language_data["status"] = prompt_version.get_status()
+                    language_data["status_reason"] = prompt_version.status_reason
+
                 languages.append(language_data)
 
             response.append({
@@ -92,6 +94,7 @@ class ContentDetailView(APIView):
                 "iso_code": content_lang.language.iso_code,
             }
             if prompt_version:
+                language_data["status_reason"] = prompt_version.status_reason
                 language_data["status"] = prompt_version.get_status()
             languages.append(language_data)
 
