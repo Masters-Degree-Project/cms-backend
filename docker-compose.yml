@@ -35,19 +35,30 @@ services:
 
   db:
     image: postgres:13
+    command: postgres -c 'listen_addresses=*'
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_DB=django_db
       - POSTGRES_USER=django_user
       - POSTGRES_PASSWORD=django_password
+    networks:
+      - default
+    restart: always
 
   redis:
     image: redis:7-alpine
+    command: redis-server --bind 0.0.0.0 --protected-mode no
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - default
+    restart: always
 
   worker:
     build: .
