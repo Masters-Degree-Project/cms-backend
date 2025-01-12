@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .enums import PromptHistoryStatus
-from .models import Content, ContentLanguage, Language, PromptHistory
+from .models import Content, ContentLanguage, Language, PromptHistory, ContentVersion
 from .queue import add_to_queue
 
 class ContentView(APIView):
@@ -11,7 +11,7 @@ class ContentView(APIView):
 
         response = []
         for c in content:
-            languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in c.content_language.all()]
+            languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in c.get_languages()]
             response.append({
                 "id": c.id,
                 "title": c.title,
@@ -72,7 +72,7 @@ class ContentDetailView(APIView):
         except Content.DoesNotExist:
             return Response({"message": "Content not found"}, status=404)
 
-        languages = [{ "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in content.content_language.all()]
+        languages = [{ "id": cl.id, "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in content.content_language.all()]
 
         return Response({
             "id": content.id,
@@ -81,6 +81,57 @@ class ContentDetailView(APIView):
             "keywords": content.keywords,
             "languages": languages,
         }, status=200)
+
+    # def post(self, request, content_id):
+    #     try:
+    #         content = Content.objects.get(id=content_id, deleted_at=None)
+    #     except Content.DoesNotExist:
+    #         return Response({"message": "Content not found"}, status=404)
+    #
+    #     content_languages = content.get_languages()
+    #     for lang in content_languages:
+    #         prompt = PromptHistory.objects.create(
+    #             content=content,
+    #             language=lang.language,
+    #             contentLanguage=lang,
+    #             prompt=request.data.get('prompt'),
+    #             status=PromptHistoryStatus.WAITING,
+    #         )
+    #
+    #         add_to_queue('prompt_queue', prompt.id)
+    #
+    #     return Response({
+    #         "message": "Content added to queue",
+    #     })
+
+class ContentLanguageDetailView(APIView):
+    def get(self, request, content_id, content_language_id):
+        try:
+            content = Content.objects.get(id=content_id, deleted_at=None)
+        except Content.DoesNotExist:
+            return Response({"message": "Content not found"}, status=404)
+
+        try:
+            content_language = ContentLanguage.objects.get(id=content_language_id, content_id=content_id)
+        except ContentLanguage.DoesNotExist:
+            return Response({"message": "Content Language not found"}, status=404)
+
+        try:
+            content_version = ContentVersion.objects.filter(content_id=content_id, language_id=content_language.language_id).order_by('-version').first()
+        except ContentVersion.DoesNotExist:
+            return Response({"message": "Content Version not found"}, status=404)
+
+        return Response({
+            "slug": content_version.slug,
+            "title_tag": content_version.title_tag,
+            "meta_description": content_version.meta_description,
+            "meta_keywords": content_version.meta_keywords,
+            "og_title": content_version.og_title,
+            "og_description": content_version.og_description,
+            "twitter_title": content_version.twitter_title,
+            "twitter_description": content_version.twitter_description,
+            "content": content_version.generated_text,
+        })
 
 class LanguageView(APIView):
     def get(self, request):

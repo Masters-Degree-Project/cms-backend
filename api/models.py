@@ -16,6 +16,9 @@ class Content(models.Model):
     def __str__(self):
         return self.title
 
+    def get_languages(self):
+        return ContentLanguage.objects.filter(content=self)
+
 class ContentLanguage(models.Model):
     content = models.ForeignKey('Content', related_name="content_language", on_delete=models.CASCADE, default=None, null=True)
     language = models.ForeignKey('Language', related_name="content_language", on_delete=models.CASCADE)
