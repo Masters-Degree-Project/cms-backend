@@ -29,16 +29,18 @@ You are an expert at creating SEO-optimized blog content in Markdown (MD) format
 ### Desired JSON Output Format:
 Generate a JSON object with the following structure:
 
+Every field should be in the language of the content.
+
 ```json
 {
     "slug": "example-slug",
-    "title_tag": "Example SEO Title",
-    "meta_description": "This is an example meta description for SEO purposes.",
-    "meta_keywords": "example, ai, content",
-    "og_title": "Example Open Graph Title",
-    "og_description": "This is an example description for Open Graph sharing.",
-    "twitter_title": "Example Twitter Title",
-    "twitter_description": "This is an example description for Twitter sharing.",
+    "title_tag": "Example SEO Title (by giving language)",
+    "meta_description": "This is an example meta description for SEO purposes (by giving language)",
+    "meta_keywords": "example, ai, content (by giving language)",
+    "og_title": "Example Open Graph Title (by giving language)",
+    "og_description": "This is an example description for Open Graph sharing (by giving language)",
+    "twitter_title": "Example Twitter Title (by giving language)",
+    "twitter_description": "This is an example description for Twitter sharing (by giving language)",
     "content": "### Example Markdown Blog Content\n\n# Example Blog Title\n\n## Introduction\nThis is an example blog introduction.\n\n## Main Section\nHere are some key points:\n- Example point 1\n- Example point 2\n\n## Conclusion\nLearn more about [related topic](#).\n"
 }
 ```
