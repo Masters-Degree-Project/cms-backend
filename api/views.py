@@ -7,7 +7,7 @@ from .queue import add_to_queue
 
 class ContentView(APIView):
     def get(self, request):
-        content = Content.objects.all().prefetch_related('content_language')
+        content = Content.objects.filter(deleted_at=None).order_by("-created_at").prefetch_related('content_language')
 
         response = []
         for c in content:
