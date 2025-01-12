@@ -1,10 +1,10 @@
+import os
 import redis
 
-from app.settings import REDIS_HOST, REDIS_PORT
-
 redis_client = redis.Redis(
-    host=REDIS_HOST,
-    port=REDIS_PORT,
+    host=os.getenv('REDIS_HOST', 'redis'),
+    port=int(os.getenv('REDIS_PORT', 6379)),
+    db=int(os.getenv('REDIS_DB', 0)),
     decode_responses=True
 ) 
 
