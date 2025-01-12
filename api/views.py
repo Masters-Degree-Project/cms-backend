@@ -104,6 +104,16 @@ class ContentDetailView(APIView):
     #         "message": "Content added to queue",
     #     })
 
+class ContentVersionView(APIView)
+    def get(self, request, content_id):
+        try:
+            content = Content.objects.get(id=content_id, deleted_at=None)
+        except Content.DoesNotExist:
+            return Response({"message": "Content not found"}, status=404)
+
+        content_versions = ContentVersion.objects.get(content_id=content_id)
+        return Response(content_versions)
+
 class ContentLanguageDetailView(APIView):
     def get(self, request, content_id, content_language_id):
         try:
