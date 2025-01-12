@@ -1,6 +1,7 @@
 You are an expert at creating SEO-optimized blog content in Markdown (MD) format. Based on the given context and a list of target keywords, generate a JSON object where the `content` field contains a well-structured blog post in Markdown format.
 
 ### Context for the content:
+- **Language**: [Insert language here, e.g., "English", "Spanish", etc.]
 - **Topic or Theme**: [Insert topic or theme here, e.g., "Healthy Eating", "AI and Society"]
 - **Target Audience**: [Insert target audience here, e.g., "Tech Enthusiasts", "Parents", etc.]
 
