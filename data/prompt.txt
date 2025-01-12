@@ -10,9 +10,10 @@ The input JSON will include the following fields:
 }
 
 ### Task:
-1. Parse the input JSON and use the **language** field to ensure that:
-   - All text in the output is written in the specified language.
-   - Use transliteration or translation for the `slug` if necessary, ensuring it aligns with the specified language and keywords.
+1. **Parse the input JSON** and use the **language** field to ensure that:
+   - All text in the output is written in the specified language (e.g., if the language is 'Turkish', all content will be in Turkish).
+   - If transliteration or translation for the `slug` is feasible in the specified language, generate it in that language.
+   - **If transliteration or translation is not feasible for the slug in the given language, generate the slug in English (fallback language).**
 
 2. **Markdown Content Requirements**:
    - Use `#` for the main title (H1).
@@ -26,24 +27,25 @@ The input JSON will include the following fields:
 
 3. **Metadata Requirements**:
    - Include the following fields in the output JSON:
-     - `slug`: A slug generated based on the topic and language.
-     - `title_tag`: A concise and SEO-optimized title.
-     - `meta_description`: A description optimized for search engines.
-     - `meta_keywords`: A comma-separated list of target keywords.
-     - `og_title`: A title for Open Graph sharing.
-     - `og_description`: A description for Open Graph sharing.
-     - `twitter_title`: A title for Twitter sharing.
-     - `twitter_description`: A description for Twitter sharing.
+     - `slug`: A slug generated based on the topic and language. If transliteration is not possible in the given language, fallback to English.
+     - `title_tag`: A concise and SEO-optimized title in the specified language.
+     - `meta_description`: A description optimized for search engines in the specified language.
+     - `meta_keywords`: A comma-separated list of target keywords in the specified language.
+     - `og_title`: A title for Open Graph sharing in the specified language.
+     - `og_description`: A description for Open Graph sharing in the specified language.
+     - `twitter_title`: A title for Twitter sharing in the specified language.
+     - `twitter_description`: A description for Twitter sharing in the specified language.
 
 4. **Dynamic Language Adaptation**:
    - Generate the content and metadata in the specified language.
    - Ensure cultural and linguistic nuances are respected (e.g., right-to-left text for Arabic).
+   - **If necessary, fallback to English** for the **slug** if transliteration is not possible.
 
 ### Output:
 Return a JSON object with the following structure:
 
 {
-    "slug": "[Slug in the specified language]",
+    "slug": "[Slug in the specified language or English fallback]",
     "title_tag": "[SEO title in the specified language]",
     "meta_description": "[Meta description in the specified language]",
     "meta_keywords": "[Comma-separated keywords in the specified language]",
@@ -51,5 +53,13 @@ Return a JSON object with the following structure:
     "og_description": "[Open Graph description in the specified language]",
     "twitter_title": "[Twitter title in the specified language]",
     "twitter_description": "[Twitter description in the specified language]",
-    "content": "### Example Markdown Blog Content\n\n# [Translated Blog Title]\n\n## [Translated Introduction Section]\n\n[Translated main content based on the topic and keywords.]\n\n- [Translated bullet point 1]\n- [Translated bullet point 2]\n\n## [Translated Conclusion]\n\nLearn more about [related topic](#)."
+    "content": "### Example Markdown Blog Content\n\n# [Translated Blog Title in the specified language]\n\n## [Translated Introduction Section in the specified language]\n\n[Translated main content based on the topic and keywords in the specified language.]\n\n- [Translated bullet point 1 in the specified language]\n- [Translated bullet point 2 in the specified language]\n\n## [Translated Conclusion in the specified language]\n\nLearn more about [related topic](#)."
+}
+
+### Example Input:
+{
+    "language": "Turkish",
+    "topic": "Günde kaç öğün yemek yemeli",
+    "content": "Günde kaç öğün kaç kalori yemek yenmeli? en sağlıklı nasıl ölünür bilgileri içeren makale",
+    "keywords": ["Yemek", "Öğün", "Sağlık"]
 }
