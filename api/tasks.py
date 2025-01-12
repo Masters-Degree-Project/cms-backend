@@ -81,6 +81,7 @@ def process_prompt_history(prompt_history_id):
 
         except json.JSONDecodeError:
             prompt_history.status = PromptHistoryStatus.FAILED
+            prompt_history.status_reason = "Invalid JSON response from OpenAI"
             prompt_history.save()
             raise ValueError("Invalid JSON response from OpenAI")
 

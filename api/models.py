@@ -44,6 +44,7 @@ class PromptHistory(models.Model):
         choices=PromptHistoryStatus.choices,
         default=PromptHistoryStatus.WAITING
     )
+    status_reason = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)  # Request date
 
     class Meta:
