@@ -104,7 +104,7 @@ class ContentDetailView(APIView):
     #         "message": "Content added to queue",
     #     })
 
-class ContentVersionView(APIView)
+class ContentVersionView(APIView):
     def get(self, request, content_id):
         try:
             content = Content.objects.get(id=content_id, deleted_at=None)
