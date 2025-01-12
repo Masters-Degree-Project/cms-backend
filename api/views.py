@@ -112,7 +112,7 @@ class ContentVersionView(APIView):
             return Response({"message": "Content not found"}, status=404)
 
         try:
-            content_versions = ContentVersion.objects.get(content_id=content_id)
+            content_versions = ContentVersion.objects.filter(content_id=content_id)
         except ContentVersion.DoesNotExist:
             return Response({"message": "Content not found"}, status=404)
 
