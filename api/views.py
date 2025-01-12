@@ -11,7 +11,18 @@ class ContentView(APIView):
 
         response = []
         for c in content:
-            languages = [{ "id": cl.id, "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in c.get_languages()]
+            languages = []
+            for content_lang in c.get_languages():
+                prompt_version = PromptHistory.objects.filter(content_id=c.id, contentLanguage_id=content_lang.id).order_by("-created_at").first()
+                language_data = {
+                    "id": content_lang.id,
+                    "language": content_lang.language.name,
+                    "iso_code": content_lang.language.iso_code,
+                }
+                if prompt_version:
+                    language_data["status"] = prompt_version.get_status()
+                languages.append(language_data)
+
             response.append({
                 "id": c.id,
                 "title": c.title,
@@ -72,7 +83,17 @@ class ContentDetailView(APIView):
         except Content.DoesNotExist:
             return Response({"message": "Content not found"}, status=404)
 
-        languages = [{ "id": cl.id, "language": cl.language.name, "iso_code": cl.language.iso_code } for cl in content.content_language.all()]
+        languages = []
+        for content_lang in content.get_languages():
+            prompt_version = PromptHistory.objects.filter(content_id=content.id, contentLanguage_id=content_lang.id).order_by("-created_at").first()
+            language_data = {
+                "id": content_lang.id,
+                "language": content_lang.language.name,
+                "iso_code": content_lang.language.iso_code,
+            }
+            if prompt_version:
+                language_data["status"] = prompt_version.get_status()
+            languages.append(language_data)
 
         return Response({
             "id": content.id,
