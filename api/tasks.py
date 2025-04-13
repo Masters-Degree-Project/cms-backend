@@ -93,9 +93,11 @@ def process_prompt_history(prompt_history_id):
     except PromptHistory.DoesNotExist:
         prompt_history.status = PromptHistoryStatus.FAILED
         prompt_history.save()
+        print(f"Prompt {prompt_history_id} not found")
         return f"Prompt {prompt_history_id} not found"
     except Exception as e:
         # Mark PromptHistory as failed in case of error
         prompt_history.status = PromptHistoryStatus.FAILED
         prompt_history.save()
+        print(f"Error processing prompt {prompt_history_id}: {str(e)}")
         return f"Error processing prompt {prompt_history_id}: {str(e)}"
